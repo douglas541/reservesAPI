@@ -4,15 +4,21 @@ using ReservesAPI.Models;
 namespace ReservesAPI.Controllers
 {
     [ApiController]
-    [Route("v1/reservation")]
-    public class ReservationController
+    [Route("hmg/reservation")]
+    public class ReservationController : ControllerBase
     {
-        private ReservationModel _reservation = new ReservationModel(1, new ClientModel(1, "Douglas"), DateTime.Now);
+        private static List<ReservationModel> _reservations = new List<ReservationModel>();
 
-        [HttpGet(Name = "create")]
-        public ReservationModel GetReservation()
+        [HttpGet]
+        public IActionResult GetReservation()
         {
-            return _reservation;
+            return Ok(_reservations);
+        }
+        [HttpPost]
+        public IActionResult CreateReservation([FromBody] ReservationModel reservation)
+        {
+            _reservations.Add(reservation);
+            return Ok(_reservations);
         }
     }
 }
